@@ -2,6 +2,8 @@ from flask import Flask, render_template, request
 import os
 from werkzeug.utils import secure_filename
 
+from parser.extractor import extract_text
+
 app = Flask(__name__)
 
 UPLOAD_FOLDER = "uploads"
@@ -40,7 +42,13 @@ def upload_resume():
         filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
         file.save(filepath)
 
-        return f"{filename} uploaded successfully!"
+        text = extract_text(filepath)
+
+        print("=" * 60)
+        print(text)
+        print("=" * 60)
+
+        return f"{filename} uploaded and parsed successfully!"
 
     return "Invalid file type. Please upload a PDF or DOCX."
 
