@@ -3,10 +3,15 @@
   <head>
     <title>Resume Parser</title>
   </head>
-
   <body>
     <h1>Automated Resume Parser</h1>
 
-    <p>Welcome!</p>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+      <input type="file" name="resume" accept=".pdf,.docx" required />
+
+      <br /><br />
+
+      <button type="submit">Upload Resume</button>
+    </form>
   </body>
 </html>
