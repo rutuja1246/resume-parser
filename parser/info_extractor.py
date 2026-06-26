@@ -3,6 +3,8 @@ import re
 import spacy
 nlp = spacy.load("en_core_web_sm")
 
+from parser.skills import SKILLS
+
 
 def extract_email(text):
     """
@@ -95,6 +97,27 @@ def extract_name(text):
 
     return None
 
+import re
+
+from parser.skills import SKILLS
+
+
+def extract_skills(text):
+    """
+    Extract technical skills from resume text.
+    """
+
+    found_skills = set()
+
+    for skill in SKILLS:
+
+        pattern = r"\b" + re.escape(skill) + r"\b"
+
+        if re.search(pattern, text, re.IGNORECASE):
+            found_skills.add(skill)
+
+    return sorted(found_skills)
+
 def extract_information(text):
     """
     Extract all candidate information.
@@ -103,7 +126,8 @@ def extract_information(text):
     candidate = {
         "name": extract_name(text),
         "email": extract_email(text),
-        "phone": extract_phone(text)
+        "phone": extract_phone(text),
+        "skills": extract_skills(text)
     }
 
     return candidate
