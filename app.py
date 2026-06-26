@@ -4,6 +4,8 @@ from werkzeug.utils import secure_filename
 
 from parser.extractor import extract_text
 
+from parser.info_extractor import extract_information
+
 app = Flask(__name__)
 
 UPLOAD_FOLDER = "uploads"
@@ -44,13 +46,24 @@ def upload_resume():
 
         text = extract_text(filepath)
 
+        candidate = extract_information(text)
+
+        print("RAW EXTRACTED TEXT")
         print("=" * 60)
         print(text)
+
         print("=" * 60)
+        print("EXTRACTED INFORMATION")
+        print("=" * 60)
+
+        for key, value in candidate.items():
+            print(f"{key.title()}: {value}")
+        
 
         return f"{filename} uploaded and parsed successfully!"
 
     return "Invalid file type. Please upload a PDF or DOCX."
+
 
 
 if __name__ == "__main__":
