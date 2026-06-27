@@ -6,6 +6,8 @@ from parser.extractor import extract_text
 
 from parser.info_extractor import extract_information
 
+from database import save_candidate
+
 app = Flask(__name__)
 
 UPLOAD_FOLDER = "uploads"
@@ -48,17 +50,7 @@ def upload_resume():
 
         candidate = extract_information(text)
 
-        print("RAW EXTRACTED TEXT")
-        print("=" * 60)
-        print(text)
-
-        print("=" * 60)
-        print("EXTRACTED INFORMATION")
-        print("=" * 60)
-
-        print("=" * 60)
-        print("EDUCATION SECTION")
-        print("=" * 60)
+        save_candidate(candidate)
 
         for key, value in candidate.items():
             print(f"{key.title()}: {value}")
