@@ -56,6 +56,10 @@ def upload_resume():
         print("EXTRACTED INFORMATION")
         print("=" * 60)
 
+        print("=" * 60)
+        print("EDUCATION SECTION")
+        print("=" * 60)
+
         for key, value in candidate.items():
             print(f"{key.title()}: {value}")
         

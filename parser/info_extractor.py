@@ -1,9 +1,16 @@
 import re
 
 import spacy
+
 nlp = spacy.load("en_core_web_sm")
 
 from parser.skills import SKILLS
+
+from parser.education import (
+    DEGREES,
+    INSTITUTION_KEYWORDS,
+    FIELD_KEYWORDS
+)
 
 
 def extract_email(text):
@@ -97,10 +104,6 @@ def extract_name(text):
 
     return None
 
-import re
-
-from parser.skills import SKILLS
-
 
 def extract_skills(text):
     """
@@ -118,6 +121,51 @@ def extract_skills(text):
 
     return sorted(found_skills)
 
+
+def extract_education(text):
+
+    education = {
+        "degree": None,
+        "institution": None,
+        "field": None
+    }
+
+    # Degree
+    for degree in DEGREES:
+
+        pattern = r"\b" + re.escape(degree) + r"\b"
+
+        if re.search(pattern, text, re.IGNORECASE):
+            education["degree"] = degree
+            break
+
+    # Institution
+    lines = text.split("\n")
+
+    for line in lines:
+
+        for keyword in INSTITUTION_KEYWORDS:
+
+            if keyword.lower() in line.lower():
+
+                education["institution"] = line.strip()
+                break
+
+        if education["institution"]:
+            break
+
+    # Field
+    for field in FIELD_KEYWORDS:
+
+        pattern = r"\b" + re.escape(field) + r"\b"
+
+        if re.search(pattern, text, re.IGNORECASE):
+
+            education["field"] = field
+            break
+
+    return education
+
 def extract_information(text):
     """
     Extract all candidate information.
@@ -127,7 +175,8 @@ def extract_information(text):
         "name": extract_name(text),
         "email": extract_email(text),
         "phone": extract_phone(text),
-        "skills": extract_skills(text)
+        "skills": extract_skills(text),
+        "education": extract_education(text)
     }
 
     return candidate
