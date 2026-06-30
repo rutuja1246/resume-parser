@@ -59,6 +59,47 @@ def save_candidate(candidate):
         connection.close()
 
         print("✅ Candidate saved successfully!")
+
+def get_all_candidates():
+    """
+    Fetches all candidates from the database.
+    """
+
+    connection = get_connection()
+
+    if connection is None:
+        return []
+
+    cursor = connection.cursor()
+
+    query = """
+    SELECT name, degree, email, phone, skills
+    FROM candidates
+    ORDER BY id;
+    """
+
+    cursor.execute(query)
+
+    rows = cursor.fetchall()
+
+    candidates = []
+
+    for row in rows:
+
+        candidate = {
+            "name": row[0],
+            "degree": row[1],
+            "email": row[2],
+            "phone": row[3],
+            "skills": row[4]
+        }
+
+        candidates.append(candidate)
+
+    cursor.close()
+    connection.close()
+
+    return candidates
     
 if __name__ == "__main__":
 

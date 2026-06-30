@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Resume Parser Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Resume Parser ATS</h1>
+
+      <p class="subtitle">Candidate Dashboard</p>
+
+      <div class="count">Total Candidates: {{ candidates|length }}</div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Degree</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Skills</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for candidate in candidates %}
+
+          <tr>
+            <td>{{ candidate.name }}</td>
+
+            <td>{{ candidate.degree }}</td>
+
+            <td>{{ candidate.email }}</td>
+
+            <td>{{ candidate.phone }}</td>
+
+            <td>{{ candidate.skills }}</td>
+          </tr>
+
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

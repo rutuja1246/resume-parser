@@ -6,7 +6,7 @@ from parser.extractor import extract_text
 
 from parser.info_extractor import extract_information
 
-from database import save_candidate
+from database import save_candidate, get_all_candidates
 
 app = Flask(__name__)
 
@@ -59,6 +59,16 @@ def upload_resume():
         return f"{filename} uploaded and parsed successfully!"
 
     return "Invalid file type. Please upload a PDF or DOCX."
+
+@app.route("/dashboard")
+def dashboard():
+
+    candidates = get_all_candidates()
+
+    return render_template(
+        "dashboard.html",
+        candidates=candidates
+    )
 
 
 
