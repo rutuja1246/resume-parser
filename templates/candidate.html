@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Candidate Profile</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+
+  <body>
+    <main>
+      <div class="container">
+        <h1 class="profile-title">Candidate Profile</h1>
+
+        <table class="profile-table">
+          <tr>
+            <th>Name</th>
+            <td>{{ candidate.name }}</td>
+          </tr>
+
+          <tr>
+            <th>Email</th>
+            <td>{{ candidate.email }}</td>
+          </tr>
+
+          <tr>
+            <th>Phone</th>
+            <td>{{ candidate.phone }}</td>
+          </tr>
+
+          <tr>
+            <th>Degree</th>
+            <td>{{ candidate.degree }}</td>
+          </tr>
+
+          <tr>
+            <th>Institution</th>
+            <td>{{ candidate.institution }}</td>
+          </tr>
+
+          <tr>
+            <th>Field</th>
+            <td>{{ candidate.field }}</td>
+          </tr>
+
+          <tr>
+            <th>Skills</th>
+            <td>{{ candidate.skills }}</td>
+          </tr>
+        </table>
+
+        <br />
+
+        <a href="/dashboard" class="back-btn"> ← Back to Dashboard </a>
+      </div>
+    </main>
+    <footer>
+      <p>© 2026 Resume Parser ATS | Developed by Rutuja Chavan</p>
+    </footer>
+  </body>
+</html>

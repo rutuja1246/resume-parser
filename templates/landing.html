@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Resume Parser ATS</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <main>
+      <div class="landing-container">
+        <h1>Resume Parser ATS</h1>
+
+        <h2>Who are you?</h2>
+
+        <div class="role-container">
+          <a href="/apply" class="role-card">
+            <div class="emoji">
+              <i class="fa-solid fa-user"></i>
+            </div>
+
+            <h3>Candidate</h3>
+
+            <p>Submit your resume for application.</p>
+          </a>
+
+          <a href="/dashboard" class="role-card">
+            <div class="emoji">
+              <i class="fa-solid fa-briefcase"></i>
+            </div>
+
+            <h3>Employee</h3>
+
+            <p>Manage and search candidate resumes.</p>
+          </a>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>© 2026 Resume Parser ATS | Developed by Rutuja Chavan</p>
+    </footer>
+  </body>
+</html>

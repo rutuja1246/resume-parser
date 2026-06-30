@@ -8,43 +8,118 @@
     />
   </head>
 
+  <script>
+    setTimeout(function () {
+      const flash = document.querySelector(".flash");
+
+      if (flash) {
+        flash.style.transition = "opacity 0.5s";
+
+        flash.style.opacity = "0";
+
+        setTimeout(() => flash.remove(), 500);
+      }
+    }, 3000);
+  </script>
+
   <body>
-    <div class="container">
-      <h1>Resume Parser ATS</h1>
+    <main>
+      <div class="container">
+        <div class="header">
+          <div>
+            <h1>Resume Parser ATS</h1>
+            <p class="subtitle">Candidate Dashboard</p>
+          </div>
 
-      <p class="subtitle">Candidate Dashboard</p>
+          <a href="/" class="upload-btn"> + Upload Resume </a>
+        </div>
 
-      <div class="count">Total Candidates: {{ candidates|length }}</div>
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
 
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Degree</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Skills</th>
-          </tr>
-        </thead>
+        <div class="flash {{ category }}">{{ message }}</div>
 
-        <tbody>
-          {% for candidate in candidates %}
+        {% endfor %} {% endif %} {% endwith %}
 
-          <tr>
-            <td>{{ candidate.name }}</td>
+        <form class="search-form" method="GET" action="/dashboard">
+          <input
+            type="text"
+            name="search"
+            placeholder="Search by name, skill, degree..."
+            value="{{ search_query }}"
+          />
 
-            <td>{{ candidate.degree }}</td>
+          <button type="submit" class="search-btn">Search</button>
 
-            <td>{{ candidate.email }}</td>
+          <a href="/dashboard" class="clear-btn"> Clear </a>
+        </form>
 
-            <td>{{ candidate.phone }}</td>
+        <div class="count">
+          <div class="count">Total Candidates: {{ candidates|length }}</div>
+        </div>
 
-            <td>{{ candidate.skills }}</td>
-          </tr>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Degree</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
 
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+          <tbody>
+            {% if candidates %} {% for candidate in candidates %}
+
+            <tr>
+              <td>{{ candidate.name }}</td>
+
+              <td>
+                <a
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to={{ candidate.email }}"
+                  target="_blank"
+                  class="email-link"
+                >
+                  {{ candidate.email }}
+                </a>
+              </td>
+
+              <td>{{ candidate.degree }}</td>
+
+              <td>
+                <div class="action-buttons">
+                  <a href="/candidate/{{ candidate.id }}" class="view-btn">
+                    View
+                  </a>
+
+                  <a
+                    href="/delete/{{ candidate.id }}"
+                    class="delete-btn"
+                    onclick="
+                      return confirm(
+                        'Are you sure you want to permanently delete this candidate?',
+                      );
+                    "
+                  >
+                    Delete
+                  </a>
+                </div>
+              </td>
+            </tr>
+
+            {% endfor %} {% else %}
+
+            <tr>
+              <td colspan="5" class="no-data">No candidates found.</td>
+            </tr>
+
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+    <footer>
+      <p>© 2026 Resume Parser ATS | Developed by Rutuja Chavan</p>
+    </footer>
   </body>
 </html>

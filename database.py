@@ -73,7 +73,7 @@ def get_all_candidates():
     cursor = connection.cursor()
 
     query = """
-    SELECT name, degree, email, phone, skills
+    SELECT id, name, degree, email, phone, skills
     FROM candidates
     ORDER BY id;
     """
@@ -87,11 +87,12 @@ def get_all_candidates():
     for row in rows:
 
         candidate = {
-            "name": row[0],
-            "degree": row[1],
-            "email": row[2],
-            "phone": row[3],
-            "skills": row[4]
+            "id":row[0],
+            "name": row[1],
+            "degree": row[2],
+            "email": row[3],
+            "phone": row[4],
+            "skills": row[5]
         }
 
         candidates.append(candidate)
@@ -100,6 +101,122 @@ def get_all_candidates():
     connection.close()
 
     return candidates
+
+def search_candidates(search_text):
+
+    connection = get_connection()
+
+    if connection is None:
+        return []
+
+    cursor = connection.cursor()
+
+    query = """
+    SELECT id, name, degree, email, phone, skills
+    FROM candidates
+    WHERE
+        LOWER(name) LIKE LOWER(%s)
+        OR LOWER(degree) LIKE LOWER(%s)
+        OR LOWER(skills) LIKE LOWER(%s)
+    ORDER BY id;
+    """
+
+    keyword = f"%{search_text}%"
+
+    cursor.execute(
+        query,
+        (keyword, keyword, keyword)
+    )
+
+    rows = cursor.fetchall()
+
+    candidates = []
+
+    for row in rows:
+
+        candidates.append({
+            "id":row[0],
+            "name": row[1],
+            "degree": row[2],
+            "email": row[3],
+            "phone": row[4],
+            "skills": row[5]
+        })
+
+    cursor.close()
+    connection.close()
+
+    return candidates
+
+def get_candidate(id):
+
+    connection = get_connection()
+
+    if connection is None:
+        return None
+
+    cursor = connection.cursor()
+
+    query = """
+    SELECT *
+    FROM candidates
+    WHERE id = %s;
+    """
+
+    cursor.execute(query, (id,))
+
+    row = cursor.fetchone()
+
+    cursor.close()
+    connection.close()
+
+    if row is None:
+        return None
+
+    candidate = {
+
+        "id": row[0],
+
+        "name": row[1],
+
+        "email": row[2],
+
+        "phone": row[3],
+
+        "degree": row[4],
+
+        "institution": row[5],
+
+        "field": row[6],
+
+        "skills": row[7]
+
+    }
+
+    return candidate
+
+def delete_candidate(id):
+
+    connection = get_connection()
+
+    if connection is None:
+        return
+
+    cursor = connection.cursor()
+
+    query = """
+    DELETE FROM candidates
+    WHERE id = %s;
+    """
+
+    cursor.execute(query, (id,))
+
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+
+    print("✅ Candidate deleted successfully!")
     
 if __name__ == "__main__":
 

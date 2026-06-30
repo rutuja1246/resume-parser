@@ -2,16 +2,35 @@
 <html>
   <head>
     <title>Resume Parser</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
   </head>
   <body>
-    <h1>Automated Resume Parser</h1>
+    <main>
+      <div class="upload-card">
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
 
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-      <input type="file" name="resume" accept=".pdf,.docx" required />
+        <div class="flash {{ category }}">{{ message }}</div>
 
-      <br /><br />
+        {% endfor %} {% endif %} {% endwith %}
 
-      <button type="submit">Upload Resume</button>
-    </form>
+        <h1>Submit Your Resume</h1>
+
+        <p>Upload your resume in PDF or DOCX format.</p>
+
+        <form method="POST" action="/upload" enctype="multipart/form-data">
+          <input type="file" name="resume" id="resume" required />
+
+          <button type="submit">Upload Resume</button>
+        </form>
+      </div>
+    </main>
+    <footer>
+      <p>© 2026 Resume Parser ATS | Developed by Rutuja Chavan</p>
+    </footer>
   </body>
 </html>
